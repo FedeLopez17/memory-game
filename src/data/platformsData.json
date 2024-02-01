@@ -1,0 +1,237 @@
+[
+  {
+    "id": 52,
+    "name": "Arcade",
+    "slug": "arcade"
+  },
+  {
+    "id": 59,
+    "name": "Atari 2600",
+    "slug": "atari-2600"
+  },
+  {
+    "id": 66,
+    "name": "Atari 5200",
+    "slug": "atari-5200"
+  },
+  {
+    "id": 60,
+    "name": "Atari 7800",
+    "slug": "atari-7800"
+  },
+  {
+    "id": 61,
+    "name": "Atari Lynx",
+    "slug": "atari-lynx"
+  },
+  {
+    "id": 67,
+    "name": "Intellivision",
+    "slug": "intellivision"
+  },
+  {
+    "id": 11,
+    "name": "Microsoft Xbox",
+    "slug": "microsoft-xbox"
+  },
+  {
+    "id": 12,
+    "name": "Microsoft Xbox 360",
+    "slug": "microsoft-xbox-360"
+  },
+  {
+    "id": 49,
+    "name": "Microsoft Xbox One",
+    "slug": "microsoft-xbox-one"
+  },
+  {
+    "id": 169,
+    "name": "Microsoft Xbox Series X",
+    "slug": "microsoft-xbox-series-x"
+  },
+  {
+    "id": 119,
+    "name": "Neo Geo Pocket",
+    "slug": "neo-geo-pocket"
+  },
+  {
+    "id": 120,
+    "name": "Neo Geo Pocket Color",
+    "slug": "neo-geo-pocket-color"
+  },
+  {
+    "id": 37,
+    "name": "Nintendo 3DS",
+    "slug": "nintendo-3ds"
+  },
+  {
+    "id": 4,
+    "name": "Nintendo 64",
+    "slug": "nintendo-64"
+  },
+  {
+    "id": 20,
+    "name": "Nintendo DS",
+    "slug": "nintendo-ds"
+  },
+  {
+    "id": 18,
+    "name": "Nintendo Entertainment System (NES)",
+    "slug": "nintendo-entertainment-system-nes"
+  },
+  {
+    "id": 33,
+    "name": "Nintendo Game Boy",
+    "slug": "nintendo-gameboy"
+  },
+  {
+    "id": 24,
+    "name": "Nintendo Game Boy Advance",
+    "slug": "nintendo-gameboy-advance"
+  },
+  {
+    "id": 22,
+    "name": "Nintendo Game Boy Color",
+    "slug": "nintendo-gameboy-color"
+  },
+  {
+    "id": 21,
+    "name": "Nintendo GameCube",
+    "slug": "nintendo-gamecube"
+  },
+  {
+    "id": 130,
+    "name": "Nintendo Switch",
+    "slug": "nintendo-switch"
+  },
+  {
+    "id": 5,
+    "name": "Nintendo Wii",
+    "slug": "nintendo-wii"
+  },
+  {
+    "id": 41,
+    "name": "Nintendo Wii U",
+    "slug": "nintendo-wii-u"
+  },
+  {
+    "id": 384,
+    "name": "Oculus Quest",
+    "slug": "oculus-quest"
+  },
+  {
+    "id": 6,
+    "name": "PC",
+    "slug": "pc"
+  },
+  {
+    "id": 78,
+    "name": "Sega CD",
+    "slug": "sega-cd"
+  },
+  {
+    "id": 23,
+    "name": "Sega Dreamcast",
+    "slug": "sega-dreamcast"
+  },
+  {
+    "id": 35,
+    "name": "Sega Game Gear",
+    "slug": "sega-game-gear"
+  },
+  {
+    "id": 29,
+    "name": "Sega Genesis",
+    "slug": "sega-genesis"
+  },
+  {
+    "id": 64,
+    "name": "Sega Master System",
+    "slug": "sega-master-system"
+  },
+  {
+    "id": 339,
+    "name": "Sega Pico",
+    "slug": "sega-pico"
+  },
+  {
+    "id": 32,
+    "name": "Sega Saturn",
+    "slug": "sega-saturn"
+  },
+  {
+    "id": 84,
+    "name": "SEGA SG-1000",
+    "slug": "sg1000"
+  },
+  {
+    "id": 7,
+    "name": "Sony Playstation",
+    "slug": "sony-playstation"
+  },
+  {
+    "id": 8,
+    "name": "Sony Playstation 2",
+    "slug": "sony-playstation-2"
+  },
+  {
+    "id": 9,
+    "name": "Sony Playstation 3",
+    "slug": "sony-playstation-3"
+  },
+  {
+    "id": 48,
+    "name": "Sony Playstation 4",
+    "slug": "sony-playstation-4"
+  },
+  {
+    "id": 167,
+    "name": "Sony Playstation 5",
+    "slug": "sony-playstation-5"
+  },
+  {
+    "id": 38,
+    "name": "Sony Playstation Portable",
+    "slug": "sony-psp"
+  },
+  {
+    "id": 46,
+    "name": "Sony Playstation Vita",
+    "slug": "sony-playstation-vita"
+  },
+  {
+    "id": 165,
+    "name": "PlayStation VR",
+    "slug": "sony-playstation-vr"
+  },
+  {
+    "id": 390,
+    "name": "PlayStation VR2",
+    "slug": "sony-playstation-vr-2"
+  },
+  {
+    "id": 19,
+    "name": "Super Nintendo (SNES)",
+    "slug": "super-nintendo-snes"
+  },
+  {
+    "id": 86,
+    "name": "TurboGrafx 16",
+    "slug": "turbografx-16"
+  },
+  {
+    "id": 439,
+    "name": "V.Smile",
+    "slug": "v-smile"
+  },
+  {
+    "id": 57,
+    "name": "WonderSwan",
+    "slug": "wonderswan"
+  },
+  {
+    "id": 123,
+    "name": "WonderSwan Color",
+    "slug": "wonderswan-color"
+  }
+]
