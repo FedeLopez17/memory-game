@@ -1,102 +1,186 @@
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { randomArrayItem, shuffleArray } from "./Helpers";
-
-type ColorObj = { id: number; value: string };
-type GameState = "ongoing" | "won" | "lost";
-
-const HEX_COLORS: ColorObj[] = [
-  { id: 1, value: "#FFC0CB" }, // Pink
-  { id: 2, value: "#0000FF" }, // Blue
-  { id: 3, value: "#00FF00" }, // Green
-  { id: 4, value: "#87CEEB" }, // Sky Blue
-  { id: 5, value: "#FFA500" }, // Orange
-  { id: 6, value: "#FF0000" }, // Red
-  { id: 7, value: "#8B4513" }, // Brown
-  { id: 8, value: "#FFFF00" }, // Yellow
-  { id: 9, value: "#800080" }, // Purple
-  { id: 10, value: "#808080" }, // Grey
-];
+import OutcomeModal from "./components/OutcomeModal";
+import GameScreen from "./components/GameScreen";
+import Menu from "./components/Menu";
+import LoadingScreen from "./components/LoadingScreen";
+import SoundManager from "./components/SoundManager";
+import cardFlipSoundEffect from "./assets/sounds/card-flip-sound-effect.mp3";
+import backgroundMusic from "./assets/sounds/copyright-free-harry-potter-inspired.mp3";
+import steamTrainSoundEffect from "./assets/sounds/steam-train.mp3";
+import avadaKedavraSoundEffect from "./assets/sounds/avada-kedavra.mp3";
+import wingardiumLeviosaSoundEffect from "./assets/sounds/wingardium-leviosa.mp3";
 
 function App() {
-  const [unclickedImages, setUnclickedImages] = useState(HEX_COLORS);
-  const [currentImageSet, setCurrentImageSet] = useState<ColorObj[]>([]);
-  const [gameState, setGameState] = useState<GameState>("ongoing");
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [unclickedCharacters, setUnclickedCharacters] = useState<Character[]>(
+    []
+  );
+  const [currentCharacterSet, setCurrentCharacterSet] = useState<Character[]>(
+    []
+  );
+  const [gameState, setGameState] = useState<GameState>("loading");
+  const [soundConfig, setSoundConfig] = useState<SoundConfig>({
+    musicOn: false,
+    soundEffectsOn: false,
+  });
 
-  const chooseRandomImages = (amount: number) => {
-    let remainingImages = [...HEX_COLORS];
-    const imageSet: ColorObj[] = [];
-
-    for (let i = 0; i < amount; i++) {
-      const randomImage = randomArrayItem(remainingImages);
-      remainingImages = remainingImages.filter(
-        (image) => image.id !== randomImage.id
-      );
-      imageSet.push(randomImage);
-    }
-
-    return imageSet;
+  const setMusicOn = (musicOn: boolean) => {
+    setSoundConfig((prevState) => ({ ...prevState, musicOn }));
   };
 
-  const updateImageSet = () => {
-    const randomSet = chooseRandomImages(4);
-    const unclickedImagesIds = unclickedImages.map((image) => image.id);
+  const setSoundEffectsOn = (soundEffectsOn: boolean) => {
+    setSoundConfig((prevState) => ({ ...prevState, soundEffectsOn }));
+  };
+
+  const startGame = () => {
+    setGameState("ongoing");
+    updateCharacterSet(unclickedCharacters);
+  };
+
+  const restartGame = () => {
+    setUnclickedCharacters(characters);
+    startGame();
+  };
+
+  const doneLoading = (characters: Character[]) => {
+    setCharacters(characters);
+    setUnclickedCharacters(characters);
+    setGameState("unstarted");
+  };
+
+  const cardAudioRef = useRef<HTMLAudioElement | null>(null);
+  const musicRef = useRef<HTMLAudioElement | null>(null);
+  const steamTrainRef = useRef<HTMLAudioElement | null>(null);
+  const avadaKedavraAudioRef = useRef<HTMLAudioElement | null>(null);
+  const wingardiumLeviosaAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const playSoundEffect = (soundEffectName: SoundEffectNames) => {
+    if (!soundConfig.soundEffectsOn) return;
+
+    const audioRefMap = {
+      "card-flip": cardAudioRef,
+      "steam-train": steamTrainRef,
+      "avada-kedavra": avadaKedavraAudioRef,
+      "wingardium-leviosa": wingardiumLeviosaAudioRef,
+    };
+
+    const currentAudioRef = audioRefMap[soundEffectName].current;
+    if (currentAudioRef) currentAudioRef.play();
+  };
+
+  const chooseRandomCharacters = (amount: number) => {
+    let remainingCharacters = [...characters];
+    const characterSet: Character[] = [];
+
+    for (let i = 0; i < amount; i++) {
+      const randomCharacter = randomArrayItem(remainingCharacters);
+      remainingCharacters = remainingCharacters.filter(
+        (character) => character.fullName !== randomCharacter.fullName
+      );
+      characterSet.push(randomCharacter);
+    }
+
+    return characterSet;
+  };
+
+  const updateCharacterSet = (unclickedCharacters: Character[]) => {
+    if (!unclickedCharacters.length) return;
+
+    const randomSet = chooseRandomCharacters(4);
+    const unclickedCharacterNames = unclickedCharacters.map(
+      (character) => character.fullName
+    );
     const noUnclickedImage = randomSet.every(
-      ({ id }) => !unclickedImagesIds.includes(id)
+      ({ fullName }) => !unclickedCharacterNames.includes(fullName)
     );
 
     if (noUnclickedImage) {
       randomSet.pop();
-      randomSet.push(randomArrayItem(unclickedImages));
+      randomSet.push(randomArrayItem(unclickedCharacters));
       shuffleArray(randomSet);
     }
 
-    setCurrentImageSet(randomSet);
+    setCurrentCharacterSet(randomSet);
   };
 
-  const nextTurn: MouseEventHandler<HTMLElement> = ({
-    currentTarget: { id },
-  }) => {
-    const selectedImageId = parseInt(id);
+  const nextTurn = (selectedCharacterName: string) => {
+    if (gameState !== "ongoing") return;
 
-    const unclickedImagesIds = unclickedImages.map((image) => image.id);
+    const unclickedCharacterNames = unclickedCharacters.map(
+      (character) => character.fullName
+    );
 
-    if (!unclickedImagesIds.includes(selectedImageId)) {
+    if (!unclickedCharacterNames.includes(selectedCharacterName)) {
       setGameState("lost");
-    } else if (unclickedImagesIds.length == 1) {
+    } else if (unclickedCharacterNames.length == 1) {
       setGameState("won");
     } else {
-      setUnclickedImages((prevUnclickedImages) =>
-        prevUnclickedImages.filter((image) => image.id !== selectedImageId)
+      const updatedUnclickedCharacters = unclickedCharacters.filter(
+        (character) => character.fullName !== selectedCharacterName
       );
+
+      setUnclickedCharacters(updatedUnclickedCharacters);
+      updateCharacterSet(updatedUnclickedCharacters);
     }
   };
 
-  useEffect(updateImageSet, [unclickedImages]);
+  useEffect(() => {
+    musicRef.current &&
+      (soundConfig.musicOn
+        ? musicRef.current.play()
+        : musicRef.current.pause());
+  }, [soundConfig.musicOn]);
 
   return (
     <>
-      <section className="h-screen bg-gradient-to-br from-white to-teal-800 flex flex-wrap justify-evenly items-center">
-        {currentImageSet.map((colorObj) => (
-          <section
-            key={colorObj.id}
-            className="w-60 aspect-[9/16] cursor-pointer border-2 border-white "
-            style={{ backgroundColor: colorObj.value }}
-            id={colorObj.id.toString()}
-            onClick={(event) => nextTurn(event)}
-          ></section>
-        ))}
-      </section>
-      {gameState !== "ongoing" && (
-        <section className="absolute h-screen w-screen flex justify-center items-center top-0 backdrop-blur-md bg-black bg-opacity-60">
-          <section className="absolute w-3/4 aspect-video flex justify-center items-center m-auto">
-            <h1 className="text-4xl font-bold text-white [text-shadow:_2px_1px_rgb(0_0_0)]">
-              {gameState === "won"
-                ? "Congratulations, you won! :D"
-                : "Unfortunately you lost :("}
-            </h1>
-          </section>
-        </section>
-      )}{" "}
+      {gameState === "loading" && <LoadingScreen doneLoading={doneLoading} />}
+
+      {gameState === "unstarted" && (
+        <Menu
+          startGame={startGame}
+          playMenuButtonSound={() => playSoundEffect("steam-train")}
+        />
+      )}
+
+      {gameState === "ongoing" && (
+        <GameScreen
+          charactersCount={characters.length}
+          unclickedCharactersCount={unclickedCharacters.length}
+          currentCharacterSet={currentCharacterSet}
+          nextTurn={nextTurn}
+          playCardSoundEffect={() => playSoundEffect("card-flip")}
+        />
+      )}
+
+      {["won", "lost"].includes(gameState) && (
+        <OutcomeModal
+          gameWon={gameState === "won"}
+          restartGame={restartGame}
+          playOutcomeSound={() =>
+            playSoundEffect(
+              gameState === "won" ? "wingardium-leviosa" : "avada-kedavra"
+            )
+          }
+        />
+      )}
+
+      {gameState !== "loading" && (
+        <SoundManager
+          soundConfig={soundConfig}
+          setMusicOn={setMusicOn}
+          setSoundEffectsOn={setSoundEffectsOn}
+        />
+      )}
+
+      <audio src={cardFlipSoundEffect} ref={cardAudioRef} />
+      <audio src={backgroundMusic} ref={musicRef} autoPlay loop />
+      <audio src={steamTrainSoundEffect} ref={steamTrainRef} />
+      <audio src={avadaKedavraSoundEffect} ref={avadaKedavraAudioRef} />
+      <audio
+        src={wingardiumLeviosaSoundEffect}
+        ref={wingardiumLeviosaAudioRef}
+      />
     </>
   );
 }
