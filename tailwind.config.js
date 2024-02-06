@@ -4,14 +4,14 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        loading: "url(./src/assets/images/letter-background.webp)",
+        loading: "url(/src/assets/images/letter-background.webp)",
         "menu-animated":
-          "url(./src/assets/images/hogwarts-express-animated.webp)",
+          "url(/src/assets/images/hogwarts-express-animated.webp)",
         "menu-firt-frame":
-          "url(./src/assets/images/hogwarts-express-first-frame.webp)",
-        game: "url(./src/assets/images/hogwarts-background.webp)",
-        victory: "url(./src/assets/images/hogwarts-victory-background.webp)",
-        defeat: "url(./src/assets/images/hogwarts-defeat-background.webp)",
+          "url(/src/assets/images/hogwarts-express-first-frame.webp)",
+        game: "url(/src/assets/images/hogwarts-background.webp)",
+        victory: "url(/src/assets/images/hogwarts-victory-background.webp)",
+        defeat: "url(/src/assets/images/hogwarts-defeat-background.webp)",
       },
       fontFamily: {
         oswald: "Oswald, sans-serif",
